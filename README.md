@@ -1,242 +1,267 @@
-# 🏥 MedConnect — Blockchain Healthcare Platform
+# MedConnect
 
-A full-stack, blockchain-powered healthcare platform enabling secure prescription management, consent-based data sharing, and verified medicine dispensing. Built with React, Node.js, and Solidity on Polygon Amoy testnet.
+A full-stack healthcare platform that connects patients, doctors, and pharmacies. Patients can book appointments, manage prescriptions, and grant time-bound consent for data access. Doctors can issue prescriptions (recorded on-chain), and pharmacies can verify and dispense medicines with QR-based workflows. Built during a hackathon with a blockchain layer on Polygon Amoy for immutable audit trails.
 
----
+## Features
 
-## 🏗️ Architecture
+- **OTP-based authentication** — phone number login via Twilio SMS
+- **Role-based dashboards** — separate flows for patients, doctors, and pharmacies
+- **Consent management** — patients grant time-limited (24h) access to their data
+- **Prescription management** — doctors create prescriptions, patients view them, pharmacies dispense
+- **QR verification** — dual QR scanning (patient ID + medicine) for pharmacy dispensing
+- **Blockchain audit trail** — prescriptions and dispense events recorded on Polygon Amoy
+- **AI assistant** — Google Gemini integration for prescription analysis and health Q&A
+- **Responsive UI** — glassmorphism design with Framer Motion animations
+
+## Tech Stack
+
+| Layer          | Technologies                                                              |
+| -------------- | ------------------------------------------------------------------------- |
+| **Frontend**   | React 18, Vite 6, TypeScript, Tailwind CSS, Zustand, Framer Motion       |
+| **Backend**    | Node.js, Express 4, TypeScript, TiDB (MySQL-compatible), JWT, Twilio     |
+| **Blockchain** | Solidity 0.8.19, Hardhat, ethers.js, Polygon Amoy Testnet                |
+| **AI**         | Google Gemini API                                                         |
+| **Deployment** | Vercel (frontend), Render (backend), TiDB Cloud (database)               |
+
+## Architecture
 
 ```
 medconnect/
-├── frontend/          → React + Vite + Tailwind CSS (deployed on Vercel)
-├── backend/           → Node.js + Express + TypeScript (deployed on Render)
-├── blockchain/        → Solidity smart contracts (Polygon Amoy via Hardhat)
-├── .gitignore
+├── frontend/       # React + Vite SPA (deployed on Vercel)
+├── backend/        # Express API server (deployed on Render)
+├── blockchain/     # Solidity smart contracts (Polygon Amoy via Hardhat)
 └── README.md
 ```
 
-| Layer | Tech Stack |
-|---|---|
-| **Frontend** | React 18, Vite 6, TypeScript, Tailwind CSS, Framer Motion, Zustand, React Router |
-| **Backend** | Express 4, TypeScript, TiDB (MySQL-compatible), JWT, Twilio OTP, Gemini AI |
-| **Blockchain** | Solidity 0.8.19, Hardhat, ethers.js, Polygon Amoy Testnet |
-
-### Data Flow
+The frontend talks to the Express API over HTTPS. The backend handles auth, CRUD operations against TiDB Cloud, and interacts with Polygon Amoy smart contracts via ethers.js for on-chain recording. The frontend is a standard Vite SPA with client-side routing.
 
 ```
-Patient/Doctor/Pharmacy → React Frontend (Vercel)
-        ↓ HTTPS
-Express API (Render) → TiDB Cloud (Database)
-        ↓ ethers.js
-Polygon Amoy Blockchain (Smart Contracts)
+Browser → React Frontend (Vercel)
+              ↓ HTTPS
+         Express API (Render) → TiDB Cloud
+              ↓ ethers.js
+         Polygon Amoy (Smart Contracts)
 ```
 
----
-
-## 🚀 Local Development Setup
+## Getting Started
 
 ### Prerequisites
 
 - Node.js 18+
 - npm 9+
 - Git
-- MetaMask browser extension (for blockchain features)
+- MetaMask (optional, for blockchain features)
 
-### 1. Clone the Repository
+### 1. Clone the repo
 
 ```bash
 git clone https://github.com/YOUR_USERNAME/medconnect.git
 cd medconnect
 ```
 
-### 2. Backend Setup
+### 2. Backend
 
 ```bash
 cd backend
 npm install
 cp .env.example .env
-# Fill in your actual values in .env
+# fill in your values — see Environment Variables below
 npm run dev
 ```
 
-Backend runs at: `http://localhost:3001`
+Runs on `http://localhost:3001`
 
-### 3. Frontend Setup
+### 3. Frontend
 
 ```bash
 cd frontend
 npm install
 cp .env.example .env
-# Fill in your actual values in .env
+# set VITE_API_URL=http://localhost:3001/api
 npm run dev
 ```
 
-Frontend runs at: `http://localhost:5173`
+Runs on `http://localhost:5173`
 
-### 4. Blockchain Setup (Optional — for contract deployment)
+### 4. Blockchain (optional)
+
+Only needed if you want to deploy your own contracts.
 
 ```bash
 cd blockchain
 npm install
 cp .env.example .env
-# Fill in your Polygon Amoy keys in .env
-npm run compile
-npm run deploy:amoy
+# add your Polygon Amoy RPC URL and deployer private key
+npx hardhat compile
+npx hardhat run scripts/deploy.ts --network amoy
 ```
 
----
+## Environment Variables
 
-## 🔐 Environment Variables
+Copy the `.env.example` in each directory and fill in your values. **Never commit `.env` files.**
 
-### Backend (`backend/.env`)
+### `backend/.env`
 
-| Variable | Description |
-|---|---|
-| `PORT` | Server port (default: `3001`) |
-| `NODE_ENV` | Environment (`development` / `production`) |
-| `FRONTEND_URL` | Frontend URL for CORS (e.g., `https://your-app.vercel.app`) |
-| `TIDB_HOST` | TiDB Cloud host |
-| `TIDB_PORT` | TiDB port (default: `4000`) |
-| `TIDB_USER` | TiDB username |
-| `TIDB_PASSWORD` | TiDB password |
-| `TIDB_DATABASE` | Database name |
-| `JWT_SECRET` | Secret key for JWT signing |
-| `JWT_EXPIRY` | Token expiry duration (e.g., `24h`) |
-| `TWILIO_ACCOUNT_SID` | Twilio account SID |
-| `TWILIO_AUTH_TOKEN` | Twilio auth token |
-| `TWILIO_PHONE_NUMBER` | Twilio sender phone number |
-| `POLYGON_RPC_URL` | Polygon Amoy RPC endpoint |
-| `PRIVATE_KEY` | Wallet private key for blockchain transactions |
-| `CONTRACT_ADDRESS` | Deployed smart contract address |
-| `GEMINI_API_KEY` | Google Gemini AI API key |
+```env
+PORT=3001
+NODE_ENV=development
+FRONTEND_URL=http://localhost:5173
 
-### Frontend (`frontend/.env`)
+# TiDB Cloud
+TIDB_HOST=your-tidb-host
+TIDB_PORT=4000
+TIDB_USER=your-username
+TIDB_PASSWORD=your-password
+TIDB_DATABASE=medconnect
 
-| Variable | Description |
-|---|---|
-| `VITE_API_URL` | Backend API base URL (e.g., `https://your-backend.onrender.com/api`) |
-| `VITE_CONTRACT_ADDRESS` | Deployed smart contract address |
+# Auth
+JWT_SECRET=your-secret-key
+JWT_EXPIRY=24h
 
-### Blockchain (`blockchain/.env`)
+# Twilio (SMS OTP)
+TWILIO_ACCOUNT_SID=your-account-sid
+TWILIO_AUTH_TOKEN=your-auth-token
+TWILIO_PHONE_NUMBER=+1234567890
 
-| Variable | Description |
-|---|---|
-| `POLYGON_RPC_URL` | Polygon Amoy RPC endpoint |
-| `PRIVATE_KEY` | Deployer wallet private key |
-| `CONTRACT_ADDRESS` | Deployed contract address |
+# Blockchain
+POLYGON_RPC_URL=https://rpc-amoy.polygon.technology
+PRIVATE_KEY=your-wallet-private-key
+CONTRACT_ADDRESS=0x...
 
-> ⚠️ **Never commit `.env` files.** They are listed in `.gitignore`. Use `.env.example` as a template.
+# AI
+GEMINI_API_KEY=your-gemini-api-key
+```
 
----
+### `frontend/.env`
 
-## ✨ Features
+```env
+VITE_API_URL=http://localhost:3001/api
+VITE_CONTRACT_ADDRESS=0x...
+```
 
-- **OTP Authentication** — Secure login with Twilio SMS OTP
-- **Consent Management** — Time-bound (24h) patient consent for data access
-- **Prescription Management** — Doctors issue prescriptions, recorded on-chain
-- **Dual QR Verification** — Patient QR + Medicine QR for pharmacy dispensing
-- **Blockchain Recording** — Immutable audit trail on Polygon Amoy
-- **AI Assistant** — Google Gemini-powered prescription analysis and chat
-- **Glassmorphism UI** — Premium, responsive design with Framer Motion animations
+### `blockchain/.env`
 
----
+```env
+POLYGON_RPC_URL=https://rpc-amoy.polygon.technology
+PRIVATE_KEY=your-deployer-private-key
+CONTRACT_ADDRESS=0x...
+```
 
-## 🎯 Demo Flow
+## Running the Project
 
-1. **Patient** logs in → Grants 24-hour consent to a Doctor
-2. **Doctor** views patient records → Issues a prescription (recorded on blockchain)
-3. **Patient** grants dispense consent to a Pharmacy
-4. **Pharmacy** verifies patient (QR scan or manual ID) → Prescriptions auto-load
-5. **Pharmacy** scans Medicine QR → Confirms dispense → Blockchain verification
+After setting up both backend and frontend:
 
----
+```bash
+# Terminal 1 — backend
+cd backend && npm run dev
 
-## 🚢 Deployment
+# Terminal 2 — frontend
+cd frontend && npm run dev
+```
 
-### Backend → Render
+The backend seeds the database tables on first run. You can also run `npm run seed` in the backend directory to populate sample data.
 
-1. Push your repository to GitHub
-2. Go to [render.com](https://render.com) → **New** → **Web Service**
-3. Connect your GitHub repository
-4. Configure:
-   - **Root Directory**: `backend`
-   - **Build Command**: `npm install && npm run build`
-   - **Start Command**: `npm start`
-   - **Environment**: `Node`
-5. Add all environment variables from `backend/.env.example` with your real values
-6. Set `NODE_ENV=production`
-7. Set `FRONTEND_URL=https://your-app.vercel.app` (after deploying frontend)
-8. Deploy
+## Deployment
 
 ### Frontend → Vercel
 
-1. Go to [vercel.com](https://vercel.com) → **Add New** → **Project**
-2. Import your GitHub repository
-3. Configure:
-   - **Root Directory**: `frontend`
-   - **Framework Preset**: `Vite`
-   - **Build Command**: `npm run build`
-   - **Output Directory**: `dist`
+1. Import your GitHub repo on [vercel.com](https://vercel.com)
+2. Set the **Root Directory** to `frontend`
+3. Framework preset: **Vite**
 4. Add environment variables:
-   - `VITE_API_URL` = `https://your-backend.onrender.com/api`
-   - `VITE_CONTRACT_ADDRESS` = your deployed contract address
+   - `VITE_API_URL` → your Render backend URL + `/api`
+   - `VITE_CONTRACT_ADDRESS` → your deployed contract address
 5. Deploy
 
-### Post-Deployment
+### Backend → Render
 
-After both services are live:
+1. Create a new **Web Service** on [render.com](https://render.com)
+2. Connect your GitHub repo
+3. Set the **Root Directory** to `backend`
+4. Build command: `npm install && npm run build`
+5. Start command: `npm start`
+6. Add all environment variables from `backend/.env.example`
+7. Set `NODE_ENV=production` and `FRONTEND_URL` to your Vercel URL
 
-1. Copy your Vercel frontend URL
-2. Go to Render → your backend service → **Environment**
-3. Set `FRONTEND_URL` = your Vercel URL (e.g., `https://medconnect.vercel.app`)
-4. Render will automatically redeploy with the updated CORS settings
+### After both are live
 
----
+Update the backend's `FRONTEND_URL` env var on Render to point to your Vercel deployment URL. This configures CORS correctly. Render will auto-redeploy with the change.
 
-## 📦 Git Commands
+## API Overview
 
-```bash
-# Initialize and push to GitHub
-git init
-git add .
-git commit -m "Initial commit: MedConnect production-ready"
-git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/medconnect.git
-git push -u origin main
+All endpoints are prefixed with `/api`.
+
+| Route                            | Method | What it does                      |
+| -------------------------------- | ------ | --------------------------------- |
+| `/auth/login`                    | POST   | Send OTP to phone number          |
+| `/auth/verify-login-otp`         | POST   | Verify OTP, returns JWT           |
+| `/auth/register`                 | POST   | Register a new user               |
+| `/patient/:id/profile`           | GET    | Get patient profile               |
+| `/patient/:id/consents`          | POST   | Grant consent to a doctor/pharmacy|
+| `/patient/:id/prescriptions`     | GET    | List patient's prescriptions      |
+| `/doctor/:id/prescribe`          | POST   | Create a prescription             |
+| `/doctor/:id/prescriptions`      | GET    | List prescriptions issued by doctor|
+| `/pharmacy/verify-patient`       | POST   | Verify patient via QR or ID       |
+| `/pharmacy/:id/dispense`         | POST   | Record medicine dispense           |
+| `/ai/analyze-prescription`       | POST   | AI analysis of a prescription     |
+| `/ai/chat`                       | POST   | AI health assistant               |
+| `/health`                        | GET    | Health check                      |
+
+## Folder Structure
+
+```
+medconnect/
+├── frontend/
+│   ├── src/
+│   │   ├── components/       # Reusable UI components (auth, layout, shared)
+│   │   ├── pages/            # Route-level pages (patient, doctor, pharmacy)
+│   │   ├── services/         # API client and service layer
+│   │   ├── store/            # Zustand state management
+│   │   ├── types/            # TypeScript type definitions
+│   │   ├── App.tsx           # Router and app shell
+│   │   └── main.tsx          # Entry point
+│   ├── package.json
+│   └── vite.config.ts
+├── backend/
+│   ├── src/
+│   │   ├── config/           # Database connection config
+│   │   ├── middleware/       # Auth middleware (JWT verification)
+│   │   ├── routes/           # Express route handlers
+│   │   ├── services/         # Blockchain, Gemini AI, Twilio services
+│   │   ├── scripts/          # DB seed and utility scripts
+│   │   ├── utils/            # Helper utilities
+│   │   └── index.ts          # Server entry point
+│   ├── package.json
+│   └── tsconfig.json
+├── blockchain/
+│   ├── contracts/            # Solidity smart contracts
+│   ├── scripts/              # Deployment scripts
+│   ├── hardhat.config.ts
+│   └── package.json
+├── .gitignore
+└── README.md
 ```
 
----
+## Future Improvements
 
-## 🔧 API Endpoints
+- [ ] Add appointment scheduling with calendar integration
+- [ ] Implement real-time notifications (WebSocket or SSE)
+- [ ] Add support for medical document/report uploads
+- [ ] Multi-language support for wider accessibility
+- [ ] Admin dashboard for platform monitoring
+- [ ] Move to mainnet deployment with proper key management
+- [ ] Add end-to-end tests with Playwright
 
-| Endpoint | Method | Description |
-|---|---|---|
-| `/api/auth/login` | POST | Request login OTP |
-| `/api/auth/verify-login-otp` | POST | Verify OTP & get JWT |
-| `/api/auth/register` | POST | Register new user |
-| `/api/patient/:id/profile` | GET | Get patient profile |
-| `/api/patient/:id/consents` | POST | Grant consent |
-| `/api/patient/:id/prescriptions` | GET | Get patient prescriptions |
-| `/api/doctor/:id/prescribe` | POST | Issue prescription |
-| `/api/doctor/:id/prescriptions` | GET | Get doctor's prescriptions |
-| `/api/pharmacy/verify-patient` | POST | Verify patient QR |
-| `/api/pharmacy/:id/dispense` | POST | Record medicine dispense |
-| `/api/ai/analyze-prescription` | POST | AI prescription analysis |
-| `/api/ai/chat` | POST | AI health assistant chat |
-| `/api/health` | GET | Health check |
+## Contributing
 
----
+1. Fork the repo
+2. Create a feature branch (`git checkout -b feature/your-feature`)
+3. Commit your changes (`git commit -m 'Add some feature'`)
+4. Push to the branch (`git push origin feature/your-feature`)
+5. Open a Pull Request
 
-## 🛠️ Tech Stack
+If you find a bug or have a suggestion, feel free to open an issue.
 
-- **Frontend**: React, Vite, TypeScript, Tailwind CSS, Framer Motion, Zustand
-- **Backend**: Express, TypeScript, TiDB (MySQL-compatible), JWT, Twilio
-- **AI**: Google Gemini API
-- **Blockchain**: Solidity, Hardhat, ethers.js, Polygon Amoy Testnet
-- **Deployment**: Vercel (frontend), Render (backend), TiDB Cloud (database)
+## License
 
----
-
-## 📄 License
-
-This project is part of a hackathon submission.
+MIT License. See [LICENSE](LICENSE) for details.
