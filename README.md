@@ -272,14 +272,24 @@ MIT License. See [LICENSE](LICENSE) for details.
 link for video-https://drive.google.com/drive/folders/1wp4yOTibFb0RF_cD4yaAW3ewvPp59laB?usp=sharing
 explanation for demo:
 1.demo-Welcome to MedConnect, a unified healthcare platform securely connecting patients, doctors, and pharmacies.
+
 2.The user journey begins with a patient logging in effortlessly using a secure SMS OTP.
+
 3.Once logged in, the patient uses our consent management system to grant a doctor specific, time-bound access (e.g., 24 hours) to their medical records.
+
 4.The doctor then logs into their own role-based dashboard, instantly viewing the patient's authorized health profile.
+
 5.While diagnosing, doctors can consult our integrated AI assistant to analyze complex details or answer quick health queries.
+
 6.The doctor then seamlessly issues a new digital prescription directly to the patient's secure profile.
+
 7.Crucially, this prescription creation is instantly recorded on the Polygon blockchain, establishing an immutable and transparent audit trail.
+
 8.For the next step, the patient visits a registered pharmacy and simply presents a unique QR code from their app.
+
 9.The pharmacist logs in and utilizes our dual QR-verification workflow to scan both the patient's code and the medicine.
+
 10.This strict verification guarantees that the exact prescribed medication is dispensed to the correct patient.
+
 11.Finally, the actual dispensing event is also logged on-chain, completing a highly secure, transparent, and error-free healthcare cycle!
 
