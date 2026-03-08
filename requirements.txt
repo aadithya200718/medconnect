@@ -1,0 +1,48 @@
+# Backend Dependencies
+express==4.18.2                     # HTTP server framework
+cors==2.8.5                         # Cross-origin resource sharing
+dotenv==16.4.0                      # Environment variable loading
+jsonwebtoken==9.0.2                 # JWT token signing and verification
+bcryptjs==2.4.3                     # Password hashing (imported, not actively used)
+mysql2==3.9.0                       # TiDB/MySQL database driver with connection pooling
+uuid==9.0.0                         # UUID generation for record IDs
+ethers==6.10.0                      # Ethereum/Polygon blockchain interaction
+qrcode==1.5.3                       # Server-side QR code generation
+twilio==5.12.1                      # SMS OTP delivery
+axios==1.13.4                       # HTTP client (used in test scripts)
+tsx==4.7.0                          # TypeScript execution for development
+typescript==5.3.3                   # TypeScript compiler
+
+# Frontend Dependencies
+react==18.3.1                       # UI framework
+react-dom==18.3.1                   # React DOM renderer
+react-router-dom==6.22.0            # Client-side routing
+zustand==4.5.0                      # State management with localStorage persistence
+framer-motion==11.0.3               # Page transitions and animations
+axios==1.6.5                        # HTTP client for API calls
+@tanstack/react-query==5.17.0       # Server state management and caching
+lucide-react==0.312.0               # Icon library
+qrcode.react==3.1.0                 # QR code rendering in React
+html5-qrcode==2.3.8                 # QR code scanner using device camera
+clsx==2.1.0                         # Conditional CSS class merging
+vite==6.0.5                         # Development server and build tool
+tailwindcss==3.4.1                  # Utility-first CSS framework
+typescript==5.6.2                   # TypeScript compiler
+
+# Blockchain Dependencies
+hardhat==2.28.4                     # Solidity development environment
+@nomicfoundation/hardhat-toolbox==6.1.0  # Hardhat plugins bundle
+solidity==0.8.19                    # Smart contract language (compiler version)
+
+# Infrastructure
+node.js>=18.0.0                     # Runtime requirement
+npm>=9.0.0                          # Package manager
+tidb-cloud                          # Managed MySQL-compatible database (TiDB Cloud)
+polygon-amoy-testnet                # Target blockchain network
+
+# Not Yet Installed (Required for Planned Features)
+# openai                            # LLM API for AI drug safety agent
+# circom                            # ZK circuit compiler
+# snarkjs                           # ZK proof generation and verification
+# @openzeppelin/contracts           # Audited Solidity contract library (for SBTs)
+# ipfs-http-client or @web3-storage/w3up-client  # Decentralized file storage

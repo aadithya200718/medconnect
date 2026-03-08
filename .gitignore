@@ -1,0 +1,44 @@
+# Dependencies
+node_modules/
+
+# Environment variables (NEVER commit these)
+.env
+.env.local
+.env.development
+.env.production
+.env.staging
+.env*.local
+
+# Build outputs
+dist/
+build/
+
+# Blockchain artifacts
+blockchain/artifacts/
+blockchain/cache/
+blockchain/typechain-types/
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+npm-debug.log*
+
+# Coverage
+coverage/
+
+# Misc
+*.tsbuildinfo
+.kiro/
+.zencoder/
+.zenflow/

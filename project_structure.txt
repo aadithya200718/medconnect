@@ -1,0 +1,98 @@
+medconnect/
+|
+|-- backend/                          Express + TypeScript API server (port 3001)
+|   |-- package.json
+|   |-- tsconfig.json
+|   |-- src/
+|       |-- index.ts                  Server entrypoint, route mounting, CORS, error handler
+|       |-- config/
+|       |   |-- database.ts           TiDB/MySQL2 connection pool + in-memory Map fallback + schema DDL
+|       |-- middleware/
+|       |   |-- auth.middleware.ts     JWT authenticate, role authorize, consent verification middleware
+|       |-- routes/
+|       |   |-- auth.routes.ts        Register, login, OTP verification, token check endpoints
+|       |   |-- patient.routes.ts     Profile, prescriptions, consents, QR, search, medical history
+|       |   |-- doctor.routes.ts      Patient list, prescribe, prescribe-safe, search, patient history
+|       |   |-- pharmacy.routes.ts    Verify patient QR, verify medicine QR, dispense, inventory (mocked)
+|       |   |-- consent.routes.ts     Grant, list, revoke consent (only route file using JWT middleware)
+|       |-- services/
+|       |   |-- auth.service.ts       Registration, login, JWT signing, user profile lookup
+|       |   |-- otp.service.ts        OTP generation (crypto.randomInt), storage, verification
+|       |   |-- blockchain.service.ts ethers.js v6 wrapper for MedConnect.sol, demo mode fallback
+|       |-- utils/
+|       |   |-- phone.ts             Phone number normalization
+|       |   |-- sendOtp.ts           Twilio SMS sender (console log fallback)
+|       |-- scripts/
+|           |-- seed.ts              Database seeding script
+|           |-- check-env.ts         Environment variable checker
+|           |-- check-users.ts       User table inspector
+|           |-- test-consent-flow.ts Consent flow integration test
+|           |-- test-phase2.ts       Phase 2 feature test
+|           |-- verify-auth.ts       Auth flow verification
+|
+|-- frontend/                         React 18 + Vite 6 + TypeScript (port 5173)
+|   |-- package.json
+|   |-- index.html
+|   |-- postcss.config.js
+|   |-- public/
+|   |   |-- logo.jpg
+|   |   |-- logo.png
+|   |-- src/
+|       |-- main.tsx                  App bootstrap with React Router + React Query
+|       |-- App.tsx                   Route definitions, ProtectedRoute wrapper, AnimatePresence
+|       |-- index.css                 Global styles, Tailwind directives
+|       |-- components/
+|       |   |-- auth/
+|       |   |   |-- GovIDLogin.tsx    Government ID login component
+|       |   |-- layout/
+|       |   |   |-- DashboardLayout.tsx Role-based sidebar layout
+|       |   |-- shared/
+|       |       |-- Badge.tsx         Status badge component
+|       |       |-- Button.tsx        Styled button component
+|       |       |-- GlassCard.tsx     Glassmorphism card component
+|       |       |-- Input.tsx         Form input component
+|       |       |-- Modal.tsx         Modal dialog component
+|       |       |-- PageTransition.tsx Framer Motion page transition wrapper
+|       |       |-- QRGenerator.tsx   QR code generation (qrcode.react)
+|       |       |-- QRScanner.tsx     QR code scanning (html5-qrcode)
+|       |       |-- TruthCard.tsx     Blockchain verification card
+|       |-- pages/
+|       |   |-- Landing.tsx           Public landing page
+|       |   |-- Login.tsx             Phone + OTP login page
+|       |   |-- Register.tsx          Registration with Aadhaar + role selection
+|       |   |-- TestQR.tsx            QR code testing utility page
+|       |   |-- patient/
+|       |   |   |-- Dashboard.tsx     Patient overview, stats, QR display
+|       |   |   |-- Prescriptions.tsx Prescription list with blockchain hash links
+|       |   |   |-- Consents.tsx      Consent grant/revoke with doctor/pharmacy search
+|       |   |   |-- Scan.tsx          Medicine QR scanning and verification
+|       |   |   |-- Profile.tsx       Patient profile with allergies, blood group, conditions
+|       |   |-- doctor/
+|       |   |   |-- Dashboard.tsx     Doctor overview, patient list, quick actions
+|       |   |   |-- Patients.tsx      Consented patient list
+|       |   |   |-- Prescribe.tsx     Prescription form with medicine list
+|       |   |   |-- Prescriptions.tsx Doctor's issued prescriptions
+|       |   |-- pharmacy/
+|       |       |-- Dashboard.tsx     Pharmacy overview dashboard
+|       |       |-- Dispense.tsx      Dual-QR verification dispense flow
+|       |       |-- Inventory.tsx     Inventory display (hardcoded mock data)
+|       |       |-- History.tsx       Dispensing history
+|       |-- services/
+|       |   |-- api.ts               Axios client with Bearer token interceptor, all API methods
+|       |-- store/
+|       |   |-- auth.store.ts        Zustand auth state with localStorage persistence
+|       |   |-- ui.store.ts          UI state (modals, toasts)
+|       |-- types/
+|           |-- index.ts             TypeScript interfaces for Patient, Doctor, Pharmacy, etc.
+|
+|-- blockchain/                       Solidity + Hardhat
+|   |-- package.json
+|   |-- contracts/
+|   |   |-- MedConnect.sol            Prescription recording, dispense, batch verification, pharmacy licensing
+|   |-- cache/
+|   |   |-- solidity-files-cache.json Hardhat build cache
+|   |-- scripts/                      (empty) Deployment scripts placeholder
+|   |-- test/                         (empty) Contract tests placeholder
+|
+|-- README.md
+|-- Gemini_Generated_Image_v75lpdv75lpdv75l.png
