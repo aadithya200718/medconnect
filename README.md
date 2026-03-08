@@ -266,6 +266,7 @@ If you find a bug or have a suggestion, feel free to open an issue.
 
 MIT License. See [LICENSE](LICENSE) for details.
 link for video-https://drive.google.com/drive/folders/1wp4yOTibFb0RF_cD4yaAW3ewvPp59laB?usp=sharing
+explanation for demo:
 1.demo-Welcome to MedConnect, a unified healthcare platform securely connecting patients, doctors, and pharmacies.
 2.The user journey begins with a patient logging in effortlessly using a secure SMS OTP.
 3.Once logged in, the patient uses our consent management system to grant a doctor specific, time-bound access (e.g., 24 hours) to their medical records.
