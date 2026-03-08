@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Package, Scan, Clock, TrendingUp, ChevronRight, FileText, CheckCircle, AlertTriangle, Search, QrCode } from 'lucide-react';
+import { Package, Scan, Clock, ChevronRight, FileText, CheckCircle, AlertTriangle, QrCode } from 'lucide-react';
 import { GlassCard } from '@/components/shared/GlassCard';
 import { Button } from '@/components/shared/Button';
 import { useAuthStore } from '@/store/auth.store';

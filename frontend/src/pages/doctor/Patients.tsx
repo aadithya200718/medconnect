@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Users, Search, User, Calendar, Eye, ShieldAlert } from 'lucide-react';
+import { Users, Search, User, Calendar, Eye } from 'lucide-react';
 import { GlassCard } from '@/components/shared/GlassCard';
 import { Input } from '@/components/shared/Input';
 import { Button } from '@/components/shared/Button';

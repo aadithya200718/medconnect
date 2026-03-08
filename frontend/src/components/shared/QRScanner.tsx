@@ -62,7 +62,7 @@ export function QRScanner({
                 (decodedText) => {
                     handleScan(decodedText);
                 },
-                (errorMessage) => {
+                (_errorMessage) => {
                     // Ignore transient errors
                 }
             );

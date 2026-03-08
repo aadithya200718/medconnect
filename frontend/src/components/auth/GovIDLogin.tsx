@@ -42,7 +42,7 @@ export function GovIDLogin({ isOpen, onClose, onSuccess }: GovIDLoginProps) {
     const [otp, setOtp] = useState('');
     const [error, setError] = useState('');
 
-    const { requestOTP, verifyOTP, isLoading } = useAuthStore();
+    const { requestLoginOTP, verifyLoginOTP, isLoading } = useAuthStore();
 
     const handleRoleSelect = (role: UserRole) => {
         setSelectedRole(role);
@@ -54,7 +54,7 @@ export function GovIDLogin({ isOpen, onClose, onSuccess }: GovIDLoginProps) {
         if (!selectedRole || !govId) return;
 
         setError('');
-        const success = await requestOTP(govId, selectedRole);
+        const success = await requestLoginOTP(govId);
 
         if (success) {
             setStep('otp');
@@ -67,7 +67,7 @@ export function GovIDLogin({ isOpen, onClose, onSuccess }: GovIDLoginProps) {
         if (!otp) return;
 
         setError('');
-        const success = await verifyOTP(otp);
+        const success = await verifyLoginOTP(govId, otp);
 
         if (success) {
             onSuccess?.();
