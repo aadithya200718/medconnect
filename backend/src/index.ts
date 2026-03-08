@@ -18,13 +18,28 @@ const PORT = process.env.PORT || 3001;
 
 // Middleware
 // CORS: allow frontend origin from env (Vercel URL in production)
+const allowedOrigins = [
+    'http://localhost:5173',
+    'http://localhost:3000',
+    'https://medconnect-livid.vercel.app',
+    process.env.FRONTEND_URL
+].filter(Boolean) as string[];
+
 app.use(cors({
     origin: function (origin, callback) {
-        // Allow all origins (for hackathon/demo purposes)
-        callback(null, true);
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, origin || '*');
+        } else {
+            callback(null, origin); // Allow anyway for demo, but reflect origin
+        }
     },
-    credentials: true
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Accept']
 }));
+
+// Basic pre-flight
+app.options('*', cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -35,12 +50,21 @@ app.use((req, res, next) => {
 });
 
 // Routes
+// Routes (/api prefix)
 app.use('/api/auth', authRoutes);
 app.use('/api/patient', patientRoutes);
 app.use('/api/doctor', doctorRoutes);
 app.use('/api/pharmacy', pharmacyRoutes);
 app.use('/api/consent', consentRoutes);
 app.use('/api/ai', aiRoutes);
+
+// Routes (root prefix - fallback for frontend calling /auth/login directly)
+app.use('/auth', authRoutes);
+app.use('/patient', patientRoutes);
+app.use('/doctor', doctorRoutes);
+app.use('/pharmacy', pharmacyRoutes);
+app.use('/consent', consentRoutes);
+app.use('/ai', aiRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
