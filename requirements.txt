@@ -46,3 +46,4 @@ polygon-amoy-testnet                # Target blockchain network
 # snarkjs                           # ZK proof generation and verification
 # @openzeppelin/contracts           # Audited Solidity contract library (for SBTs)
 # ipfs-http-client or @web3-storage/w3up-client  # Decentralized file storage
+c
